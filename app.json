@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "mappingit",
+    "slug": "mappingit",
+    "version": "1.0.0",
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "com.hyeon3051.mappingit",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ],
+      "useNextNotificationsApi": true,
+      "backgroundLocation": {
+        "minimumInterval": 1000,
+        "deferredUpdatesInterval": 1000
+      }
+    },
+    "plugins": [
+      ["expo-apple-authentication"],  [
+      "@rnmapbox/maps",
+      {
+        "RNMapboxMapsImpl": "mapbox",
+        "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiaHllb24zMDUxIiwiYSI6ImNsa3YwM3BhcjBneGEzbHIweGFuNTgzZXoifQ.uvJeaDq7NLN0HyOENlWUcA"
+      }
+    ],[
+      "expo-location",
+      {
+        "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+      }
+    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.hyeon3051.mappingit",
+       "infoPlist": {
+         "UIBackgroundModes": [
+           "fetch",
+           "processing"
+         ],
+         "BGTaskSchedulerPermittedIdentifiers": [
+          "com.transistorsoft.fetch"
+          ]
+        }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d9fd323a-ea5b-408a-961b-a10911c41582"
+      }
+    }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-5218306923860994~3451642656",
+    "ios_app_id": "ca-app-pub-5218306923860994~8210797708"
+  }
+}
