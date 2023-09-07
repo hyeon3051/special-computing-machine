@@ -30,6 +30,8 @@
     "react-dom": "^18.2.0",
     "react-native": "0.71.8",
     "react-native-background-actions": "^3.0.0",
+    "react-native-background-fetch": "^4.2.1",
+    "react-native-background-geolocation": "^4.13.3",
     "react-native-google-mobile-ads": "^11.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-safe-area-context": "4.5.0",

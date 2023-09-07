@@ -3,7 +3,9 @@
     "name": "mappingit",
     "slug": "mappingit",
     "version": "1.0.0",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "package": "com.hyeon3051.mappingit",
       "versionCode": 1,
@@ -22,30 +24,35 @@
       }
     },
     "plugins": [
-      ["expo-apple-authentication"],  [
-      "@rnmapbox/maps",
-      {
-        "RNMapboxMapsImpl": "mapbox",
-        "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiaHllb24zMDUxIiwiYSI6ImNsa3YwM3BhcjBneGEzbHIweGFuNTgzZXoifQ.uvJeaDq7NLN0HyOENlWUcA"
-      }
-    ],[
-      "expo-location",
-      {
-        "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
-      }
-    ]
+      [
+        "expo-apple-authentication"
+      ],
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsImpl": "mapbox",
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiaHllb24zMDUxIiwiYSI6ImNsa3YwM3BhcjBneGEzbHIweGFuNTgzZXoifQ.uvJeaDq7NLN0HyOENlWUcA"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
+      "react-native-background-geolocation"
     ],
     "ios": {
       "bundleIdentifier": "com.hyeon3051.mappingit",
-       "infoPlist": {
-         "UIBackgroundModes": [
-           "fetch",
-           "processing"
-         ],
-         "BGTaskSchedulerPermittedIdentifiers": [
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "fetch",
+          "processing"
+        ],
+        "BGTaskSchedulerPermittedIdentifiers": [
           "com.transistorsoft.fetch"
-          ]
-        }
+        ]
+      }
     },
     "extra": {
       "eas": {

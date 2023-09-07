@@ -6,14 +6,14 @@ import {
     TextField,
     KeyboardAvoidingView,
 } from "native-base";
-import { useRecoilState } from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import { Dimensions, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     modeState,
     routeState,
     markerState,
-    fileNameState, recordState
+    fileNameState, recordState, viewToastState
 } from "../Utils/atom";
 import { AntDesign } from "@expo/vector-icons";
 

@@ -125,8 +125,7 @@ export const RightIcon = () => {
       {!isOpen ?
       <VStack alignItems="center">
         <AntDesign name="enviromento" size={50} color="yellow" onPress={()=>{
-          setDataLocation(prev=>{
-          })
+          setDataLocation(prev=> [])
         }} />
         <Text color={"white"}>
           내 위치

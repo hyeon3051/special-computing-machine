@@ -10,13 +10,13 @@ import {
   VStack,
   Popover,
 } from "native-base";
-import { useRecoilState } from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import { ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   modeState,
   markerState,
-  routeState,
+  routeState, viewToastState,
 } from "../Utils/atom";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -26,6 +26,8 @@ export const DefaultSaveScreen = () => {
   let [marker,setMarker] = useRecoilState(markerState);
   let [route, setRoute] = useRecoilState(routeState);
   const [isOpen, setIsOpen] = useState(false);
+  const viewToast =useRecoilValue(viewToastState)
+
   const getAllKeys = async () => {
     let keys = [];
     try {
@@ -154,8 +156,11 @@ export const DefaultSaveScreen = () => {
           size={50}
           color="black"
           onPress={async() => {
-            await load();
-            setMode("file")
+            if(keys.findIndex(key => key.selected) !== -1) {
+              await load();
+            }else {
+              viewToast("파일을 선택해주세요")
+            }
           }}
         />
         <Text>
@@ -193,7 +198,11 @@ export const DefaultSaveScreen = () => {
                     }
                     {...triggerProps}
                     onPress={() => {
-                      setIsOpen(!isOpen)
+                      if(keys.findIndex(key => key.selected) !== -1) {
+                        setIsOpen(!isOpen)
+                      }else {
+                        viewToast("파일을 선택해주세요")
+                      }
                     }}
                   />
                   <Text>

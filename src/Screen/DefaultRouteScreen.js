@@ -9,11 +9,11 @@ import {
   IconButton,
   Icon
 } from "native-base";
-import { useRecoilState } from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import { ScrollView } from "react-native";
 import {
-  modeState,
-  routeState,
+    modeState,
+    routeState, viewToastState,
 } from "../Utils/atom";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../Utils/Consts";
@@ -23,6 +23,7 @@ export const DefaultRouteScreen = () => {
   const [rawRoute, setRawRoute] = useRecoilState(routeState);
   const [route, setRoute] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const viewToast = useRecoilValue(viewToastState)
 
   useEffect(() => {
     setRoute(rawRoute.slice(1).map(
@@ -198,7 +199,11 @@ export const DefaultRouteScreen = () => {
                     }
                     {...triggerProps}
                     onPress={() => {
-                      setIsOpen(!isOpen)
+                        if(route.findIndex(data=> data.selected) !== -1) {
+                            setIsOpen(!isOpen)
+                        }else{
+                            viewToast("루트를 선택해주세요")
+                        }
                     }}
                   />
                   <Text>
@@ -252,7 +257,11 @@ export const DefaultRouteScreen = () => {
             size={50}
             color="black"
             onPress={() => {
-              mergeRoute();
+                if(route.filter(data => data.selected).length >= 2) {
+                    mergeRoute();
+                }else{
+                    viewToast("두 개의 경로가 있어야 합니다")
+                }
             }}
           />
           <Text>

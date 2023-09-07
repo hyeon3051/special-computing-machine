@@ -57,7 +57,7 @@ export const DeleteMarkerView = () => {
       >
         <ScrollView horizontal={true}>
           <HStack space={5}>
-            {marker.map((data, idx) => 
+            {marker.map((data, idx) =>
             <VStack key={idx} space={2} alignItems={"center"}>
               <AntDesign
                 name={data.icon}
@@ -130,8 +130,12 @@ export const DeleteMarkerView = () => {
                     }
                     {...triggerProps}
                     onPress={() => {
-                      setIsOpen(!isOpen)
+                      if(marker.findIndex(data=> data.selected) !== -1) {
+                        setIsOpen(!isOpen)
+                      }else{
+                        viewToast("마커를 선택해주세요")
                     }}
+                  }
                   />
                   <Text>
                     삭제
