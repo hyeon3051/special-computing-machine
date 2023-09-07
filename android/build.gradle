@@ -3,9 +3,11 @@
 buildscript {
     ext {
         buildToolsVersion = findProperty('android.buildToolsVersion') ?: '33.0.0'
-        minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '21')
+        minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '19')
         compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '33')
         targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '33')
+        appCompatVersion="1.4.2"
+        googlePlayServicesLocationVersion="20.0.0"
         if (findProperty('android.kotlinVersion')) {
             kotlinVersion = findProperty('android.kotlinVersion')
         }
@@ -34,6 +36,9 @@ allprojects {
             // Android JSC is installed from npm
             url(new File(['node', '--print', "require.resolve('jsc-android/package.json')"].execute(null, rootDir).text.trim(), '../dist'))
         }
+        maven { url("${project(':react-native-background-geolocation').projectDir}/libs") }
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url("${project(':react-native-background-fetch').projectDir}/libs") }
 
         google()
         mavenCentral()
