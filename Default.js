@@ -9,7 +9,6 @@ import {BannerAd} from "react-native-google-mobile-ads";
 import * as Location from "expo-location"
 import {myLocationState, routeState, markerState} from "./src/Utils/atom";
 import * as TaskManager from "expo-task-manager";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {stopLocationUpdatesAsync} from "expo-location";
 
 const LOCATION_TRACKING = 'location-tracking';
@@ -36,6 +35,26 @@ export default function Default() {
         const hasStarted = await Location.hasStartedLocationUpdatesAsync(
             LOCATION_TRACKING
         );
+        await Location.watchPositionAsync(
+            {accuracy: Location.Accuracy.High, distanceInterval: 5},
+            (locations) => {
+                let latitude = locations.coords.latitude
+                let longitude = locations.coords.longitude
+                setMyInfoLocation([
+                    longitude,
+                    latitude,
+                ])
+                setRoutes((prev) =>
+                    [
+                        [
+                            [...prev[0][0], [longitude, latitude]],
+                            ...prev[0].slice(1)
+                        ],
+                        ...prev.slice(1)
+                    ]
+                )
+            })
+
         console.log('tracking started?', hasStarted);
     }
     const requestPermission = async() => {
@@ -50,33 +69,9 @@ export default function Default() {
 
         }
     }
-    const startLocation = () => {
-        startLocationTracking();
-    }
-
-    useEffect( ()=>{
+    useEffect(() => {
         requestPermission()
-        startLocation()
-    },[])
-    useEffect(() => {
-        const subscription = AppState.addEventListener('change', nextAppState => {
-            if (
-                appState.current.match(/inactive|background/) &&
-                nextAppState === 'active'
-            ) {
-                setRoutes(AsyncStorage.getItem("myRoutes"))
-                setMyInfoLocation(AsyncStorage.getItem("myCurrentLocation"))
-            }
-
-            appState.current = nextAppState;
-            console.log('AppState', appState.current);
-        });
-
-        return () => {
-            subscription.remove();
-        };
-    }, []);
-    useEffect(() => {
+        startLocationTracking()
         const backAction = () => {
             Alert.alert('나가기', '정말로 종료 할거야(백그라운드 task로 남길거면 백그라운드로 종료)', [
                 {
@@ -86,8 +81,6 @@ export default function Default() {
                 },
                 {
                     text: "종료", onPress: ()=>{
-                        AsyncStorage.removeItem("myCurrentLocation")
-                        AsyncStorage.removeItem("myRoutes")
                         stopLocationUpdatesAsync()
                         BackHandler.exitApp()
                     }
@@ -140,23 +133,8 @@ TaskManager.defineTask(LOCATION_TRACKING, async ({ data, error }) => {
         return;
     }
     if (data) {
-        const { locations } = data;
-        let {latitude, longitude} = locations[0].coords;
-        await AsyncStorage.setItem("myCurrentLocation",
-                JSON.stringify({myCurrentLocation: [
-                        longitude,
-                        latitude
-                    ]
-                }
-            )
-        )
-        if(await AsyncStorage.getItem("myRoutes")) {
-            await AsyncStorage.mergeItem("myRoutes", JSON.stringify([latitude, longitude]))
-        }else{
-            await AsyncStorage.setItem("myRoutes", JSON.stringify([latitude, longitude]))
-        }
         console.log(
-            `${new Date(Date.now()).toLocaleString()}: ${latitude},${longitude}`
+            `${new Date(Date.now()).toLocaleString()}`
         );
     }
 });
