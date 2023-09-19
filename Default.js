@@ -6,12 +6,16 @@ import {Dimensions, BackHandler, Alert, AppState} from "react-native";
 import {DefaultScreen} from "./src/Screen/DefaultScreen";
 import {DefaultIcon} from "./src/Screen/DefaultIcon";
 import {BannerAd} from "react-native-google-mobile-ads";
+import {myLocationState, routeState} from "./src/Utils/atom";
+import BackgroundService from 'react-native-background-actions';
 import * as Location from "expo-location"
-import {myLocationState, routeState, markerState} from "./src/Utils/atom";
-import * as TaskManager from "expo-task-manager";
-import {stopLocationUpdatesAsync} from "expo-location";
+import * as TaskManager from "expo-task-manager"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const LOCATION_TRACKING = 'location-tracking';
+
+const LOCATION_TRACKING = "LOCATION_TRACKING"
+
+const sleep = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
 
 export default function Default() {
     const adUnitId = "ca-app-pub-5218306923860994/2970041329";
@@ -35,26 +39,6 @@ export default function Default() {
         const hasStarted = await Location.hasStartedLocationUpdatesAsync(
             LOCATION_TRACKING
         );
-        await Location.watchPositionAsync(
-            {accuracy: Location.Accuracy.High, distanceInterval: 5},
-            (locations) => {
-                let latitude = locations.coords.latitude
-                let longitude = locations.coords.longitude
-                setMyInfoLocation([
-                    longitude,
-                    latitude,
-                ])
-                setRoutes((prev) =>
-                    [
-                        [
-                            [...prev[0][0], [longitude, latitude]],
-                            ...prev[0].slice(1)
-                        ],
-                        ...prev.slice(1)
-                    ]
-                )
-            })
-
         console.log('tracking started?', hasStarted);
     }
     const requestPermission = async() => {
@@ -69,6 +53,45 @@ export default function Default() {
 
         }
     }
+    const veryIntensiveTask = async () => {
+        // Example of an infinite loop task
+        await new Promise( async (resolve) => {
+            for (let i = 0; BackgroundService.isRunning(); i++) {
+                await fetchLocation()
+                await sleep(1250)
+            }
+        });
+    };
+    const options = {
+        taskName: 'Example',
+        taskTitle: 'ExampleTask title',
+        taskDesc: 'ExampleTask description',
+        taskIcon: {
+            name: 'ic_launcher',
+            type: 'mipmap',
+        },
+        color: '#ff00ff',
+        parameters: {
+            delay: 1000,
+        },
+    };
+
+    const fetchLocation = async() => {
+            const myLocation = await AsyncStorage.getItem('myLocation');
+            if (myLocation) {
+            let {latitude, longitude} = JSON.parse(myLocation);
+            setMyInfoLocation([longitude, latitude])
+            setRoutes((prev) =>
+            [
+                [
+                    [...prev[0][0], [longitude, latitude]],
+                    ...prev[0].slice(1)
+                ],
+                ...prev.slice(1)
+            ]
+            )}
+      }
+
     useEffect(() => {
         requestPermission()
         startLocationTracking()
@@ -96,6 +119,11 @@ export default function Default() {
 
         return () => backHandler.remove();
     }, []);
+
+    useEffect( ()=>{
+        BackgroundService.start(veryIntensiveTask, options);
+        BackgroundService.updateNotification({taskDesc: 'New ExampleTask description'});
+    },[])
 
     let adWidth = Dimensions.get("window").width;
     adWidth = adWidth.toFixed(0);
@@ -136,5 +164,10 @@ TaskManager.defineTask(LOCATION_TRACKING, async ({ data, error }) => {
         console.log(
             `${new Date(Date.now()).toLocaleString()}`
         );
+        let {latitude, longitude} = data.locations[0].coords
+        console.log(latitude,longitude)
+        if(latitude > 0 || longitude > 0) {
+            await AsyncStorage.setItem('myLocation', JSON.stringify({latitude, longitude}))
+        }
     }
 });

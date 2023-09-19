@@ -9,10 +9,10 @@ import {
 } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { useRecoilState, useRecoilValue } from "recoil";
+import * as Location from "expo-location"
 import {
   modeState,
   markerState,
-  myLocationState,
 } from "../Utils/atom";
 
 export const PlusMarker = () => {
@@ -29,7 +29,6 @@ export const PlusMarker = () => {
   ]);
   const [mode, setMode] = useRecoilState(modeState);
   const [marker, setMarker] = useRecoilState(markerState);
-  const myInfoLocation = useRecoilValue(myLocationState);
   return (
     <Box
       position={"absolute"}
@@ -53,7 +52,7 @@ export const PlusMarker = () => {
       >
         <ScrollView horizontal={true}>
           <HStack space={5}>
-            {markerName.map((name, index) => 
+            {markerName.map((name, index) =>
                 <AntDesign
                   key={index}
                   name={name}
@@ -90,7 +89,9 @@ export const PlusMarker = () => {
           name="checkcircleo"
           size={50}
           color="black"
-          onPress={() => {
+          onPress={async() => {
+            let location = await Location.getCurrentPositionAsync({})
+            console.log(location)
             setMode("default");
             setMarker((marker)=>{
               return [
@@ -99,8 +100,8 @@ export const PlusMarker = () => {
                   key: marker.length,
                   selected: false,
                   name: markersImage,
-                  latitude: myInfoLocation[1],
-                  longitude: myInfoLocation[0],
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude,
                   icon: markersImage,
                   createdAt: new Date(),
                 },

@@ -35,7 +35,7 @@ export const DefaultRouteScreen = () => {
       }
     )
     )
-  }, [rawRoute]);
+  }, []);
 
   const mergeRoute = () => {
     let selectedRoute = []

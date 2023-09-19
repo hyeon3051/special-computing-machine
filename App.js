@@ -5,10 +5,10 @@ import Default from "./Default";
 export default function App() {
 
   return (
-    <NativeBaseProvider>
       <RecoilRoot>
-        <Default/>
-      </RecoilRoot>
-    </NativeBaseProvider>
+        <NativeBaseProvider>
+          <Default/>
+      </NativeBaseProvider>
+    </RecoilRoot>
   );
 }
