@@ -38,6 +38,9 @@ export const DefaultFileScreen = () => {
             try {
                 const jsonValue = JSON.stringify(value);
                 const file = fileName ? fileName : utcDate;
+                if(await AsyncStorage.getItem(file)){
+                    AsyncStorage.removeItem(file)
+                }
                 await AsyncStorage.setItem(file, jsonValue);
                 setFileName(file)
             } catch (e) {

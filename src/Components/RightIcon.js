@@ -15,6 +15,7 @@ import {
   dataLocationState
 } from "../Utils/atom";
 import MapboxGL from  "@rnmapbox/maps"
+import * as Location from "expo-location"
 export const RightIcon = () => {
   const [mode, setMode] = useRecoilState(modeState);
   const [record, setRecord] = useRecoilState(recordState);
@@ -124,8 +125,10 @@ export const RightIcon = () => {
       ) : null}
       {!isOpen ?
       <VStack alignItems="center">
-        <AntDesign name="enviromento" size={50} color="yellow" onPress={()=>{
-          setDataLocation(prev=> [])
+        <AntDesign name="enviromento" size={50} color="yellow" onPress={async()=>{
+          let location = await Location.getCurrentPositionAsync({})
+          let {latitude, longitude} = location.coords;
+          setDataLocation([longitude, latitude])
         }} />
         <Text color={"white"}>
           내 위치

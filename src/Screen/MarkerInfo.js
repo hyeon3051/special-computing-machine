@@ -61,7 +61,7 @@ export const MarkerInfo = () => {
                               if (index === idx) {
                                 return {
                                   ...parent,
-                                  selected: !parent.selected,
+                                  selected: true,
                                 };
                               }
                               return {

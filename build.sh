@@ -6,7 +6,7 @@ USER='heyon'
 PASS='rkskek112233!'
 SOURCE_DIR='android/app/build/outputs/apk/release/'
 TARGET_DIR='등산앱(가칭)/베타/'
-APP_VERSION="mappingit_0.2.2.apk"
+APP_VERSION="mappingit_0.2.20.apk"
 
 # React Native 빌드
 npx react-native bundle --platform android --dev false \--entry-file App.js \--bundle-output android/app/src/main/assets/index.android.bundle \  --assets-dest android/appbuild/intermediates/res/merged/release/
