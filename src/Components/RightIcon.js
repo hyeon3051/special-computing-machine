@@ -15,7 +15,7 @@ import {
   dataLocationState
 } from "../Utils/atom";
 import MapboxGL from  "@rnmapbox/maps"
-import * as Location from "expo-location"
+import Geolocation  from "@react-native-community/geolocation";
 export const RightIcon = () => {
   const [mode, setMode] = useRecoilState(modeState);
   const [record, setRecord] = useRecoilState(recordState);
@@ -116,7 +116,7 @@ export const RightIcon = () => {
                 setMode("route")
               }}
             />
-            <Text color={"wxhite"}>
+            <Text color={"white"}>
               루트 정보
             </Text>
             </VStack>
@@ -126,9 +126,11 @@ export const RightIcon = () => {
       {!isOpen ?
       <VStack alignItems="center">
         <AntDesign name="enviromento" size={50} color="yellow" onPress={async()=>{
-          let location = await Location.getCurrentPositionAsync({})
-          let {latitude, longitude} = location.coords;
-          setDataLocation([longitude, latitude])
+          await Geolocation.getCurrentPosition(position=>{
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            setDataLocation([longitude, latitude])
+          })
         }} />
         <Text color={"white"}>
           내 위치

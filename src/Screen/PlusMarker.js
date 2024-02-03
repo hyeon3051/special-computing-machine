@@ -9,7 +9,7 @@ import {
 } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { useRecoilState, useRecoilValue } from "recoil";
-import * as Location from "expo-location"
+import Geolocation from "@react-native-community/geolocation";
 import {
   modeState,
   markerState,
@@ -89,24 +89,29 @@ export const PlusMarker = () => {
           name="checkcircleo"
           size={50}
           color="black"
-          onPress={async() => {
-            let location = await Location.getCurrentPositionAsync({})
-            console.log(location)
-            setMode("default");
-            setMarker((marker)=>{
-              return [
-                ...marker,
-                {
-                  key: marker.length,
-                  selected: false,
-                  name: markersImage,
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude,
-                  icon: markersImage,
-                  createdAt: new Date(),
-                },
-              ];
-            });
+          onPress={() => {
+              Geolocation.getCurrentPosition(
+              location => {
+                console.log(location)
+                setMode("default");
+                let {longitude, latitude} =  location.coords
+                setMarker((marker)=>{
+                  return [
+                    ...marker,
+                    {
+                      key: marker.length,
+                      selected: false,
+                      name: markersImage,
+                      latitude: latitude,
+                      longitude: longitude,
+                      icon: markersImage,
+                      createdAt: new Date(),
+                    },
+                  ];
+                });
+                console.log(marker)
+              }
+            )
           }}
         />
         <Text>확인</Text>

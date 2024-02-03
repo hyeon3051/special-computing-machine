@@ -31,7 +31,7 @@ export const DefaultMapScreen = () => {
 
   return (
       <MapView
-          styleURL={MapboxGL.StyleURL.Satellite}
+          styleURL={MapboxGL.StyleURL.Outdoors}
           style={{ width: "100%", height: "100%", flex: 1 }}
           zoomEnabled={true}
           logoEnabled={false}
@@ -53,18 +53,16 @@ export const DefaultMapScreen = () => {
               />:
               <Camera
                   followUserLocation={true}
-                  followZoomLevel={15}
                   maxZoomLevel={20}
                   minZoomLevel={5}
                   followUserMode="normal"
-                  centerCoordinate={dataLocation.length > 0 ? dataLocation : myInfoLocation}
+                  centerCoordinate={myInfoLocation}
               />
         }
 
         <UserLocation
             visible={true}
             requestsAlwaysUse={true}
-            renderMode={UserLocationRenderMode.Native}
             minDisplacement={0}
         />
         {

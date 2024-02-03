@@ -19,7 +19,7 @@ export const DefaultIcon = () => {
           <Box width={"50%"} position={"absolute"} >
             <Center>
               <Text fontSize="xl" fontWeight="bold" color={"red.500"}>
-                {record ? "측정 중입니다" : "측정을 시작해주세요"}
+                {record ? "Rec" : "Stop"}
               </Text>
             </Center>
           </Box>

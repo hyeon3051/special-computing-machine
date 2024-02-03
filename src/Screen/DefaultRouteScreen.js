@@ -93,9 +93,6 @@ export const DefaultRouteScreen = () => {
     ) :
     setRawRoute(
         [
-          [
-            ...rawRoute[0],
-          ],
           ...newRoute
         ]
       )

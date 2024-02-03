@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { modeState, viewToastState, recordState } from "../Utils/atom";
+import {BackHandler} from "react-native";
 import { PlusMarker } from "./PlusMarker";
 import { MarkerView } from "./MarkerView";
 import { DeleteMarkerView } from "./deleteMarker";
@@ -11,7 +12,8 @@ import { DefaultFileScreen } from "./DefaultFileScreen";
 import { useToast, Box, Text } from "native-base";
 export const DefaultScreen = () => {
   let toast = useToast();
-  let mode = useRecoilValue(modeState);
+  let [mode, setMode] = useRecoilState(modeState);
+
   let [prevMode, setPrevMode] = useState(mode);
   const [viewToast, setViewToast] = useRecoilState(viewToastState);
   const viewToastHandler = (text) => {
