@@ -1,13 +1,20 @@
 import React, {useEffect, useRef} from "react";
 import {Box, StatusBar} from "native-base";
 import {DefaultMapScreen} from "./src/MapScreen/defaultMapScreen";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {Dimensions, BackHandler, Alert, AppState} from "react-native";
 import {DefaultScreen} from "./src/Screen/DefaultScreen";
 import {DefaultIcon} from "./src/Screen/DefaultIcon";
 import {BannerAd} from "react-native-google-mobile-ads";
 import {myLocationState, routeState, fileNameState, modeState} from "./src/Utils/atom";
 import Geolocation from '@react-native-community/geolocation';
+
+Geolocation.setRNConfiguration(
+    {
+        authorizationLevel: 'always',
+        skipPermissionRequests: false,
+    }
+)
 
 export default function Default() {
     const adUnitId = "ca-app-pub-5218306923860994/2970041329";
@@ -16,26 +23,19 @@ export default function Default() {
     const [mode, setMode] = useRecoilState(modeState)
     const [fileName, setFileName] = useRecoilState(fileNameState)
     const [myInfoLocation, setMyInfoLocation] = useRecoilState(myLocationState);
-    useEffect(() => {
-        Geolocation.setRNConfiguration(
-            {
-                authorizationLevel: 'always',
-                skipPermissionRequests: false,
-            }
-        )
-      }, []);
       
       Geolocation.watchPosition(location=>{
         let {latitude, longitude} = location.coords
         setMyInfoLocation([longitude, latitude])
-        fileName ?
-        setRoutes((prev) =>[
-                [
-                    [...prev[0][0], [longitude, latitude]],
-                    ...prev[0].slice(1)
-                ],
-                ...prev.slice(1)
-            ]) : null
+          if(fileName) {
+              setRoutes((prev) => [
+                  [
+                      [...prev[0][0], [longitude, latitude]],
+                      ...prev[0].slice(1)
+                  ],
+                  ...prev.slice(1)
+              ])
+          }
       }, err=>{console.log(err)},
         {
             interval: 5000,

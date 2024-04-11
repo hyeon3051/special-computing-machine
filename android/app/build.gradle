@@ -108,12 +108,6 @@ packagingOptions {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-        release {
-            storeFile file('hyeon3051.keystore')
-            storePassword 'tjqtjq12'
-            keyAlias 'hyeon3051_alias'
-            keyPassword 'tjqtjq12'
-        }
     }
     buildTypes {
         debug {
@@ -126,6 +120,11 @@ packagingOptions {
             shrinkResources (findProperty('android.enableShrinkResourcesInReleaseBuilds')?.toBoolean() ?: false)
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging (findProperty('expo.useLegacyPackaging')?.toBoolean() ?: false)
         }
     }
 }

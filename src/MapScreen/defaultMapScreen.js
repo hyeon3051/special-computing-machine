@@ -39,27 +39,18 @@ export const DefaultMapScreen = () => {
           attributionEnabled={false}
           scaleBarEnabled={false}
       >
-        {
-          dataLocation.length > 0 ?
-              <Camera
-                  maxZoomLevel={20}
-                  minZoomLevel={5}
-                  followUserMode="normal"
-                  centerCoordinate={dataLocation}
-                  type="fit"
-                  zoomLevel={
-                    12
-                  }
-              />:
-              <Camera
-                  followUserLocation={true}
-                  maxZoomLevel={20}
-                  minZoomLevel={5}
-                  followUserMode="normal"
-                  centerCoordinate={myInfoLocation}
-              />
-        }
+        <Camera
+            followUserLocation={true}
+            maxZoomLevel={20}
+            minZoomLevel={5}
+            followUserMode="normal"
+            centerCoordinate={dataLocation.length > 0 ? dataLocation : myInfoLocation}
+            type={dataLocation.length > 0 ? "fit" : "auto"}
+            zoomLevel={
+              dataLocation.length > 0 ? 12 : 15
+            }
 
+            />
         <UserLocation
             visible={true}
             requestsAlwaysUse={true}
