@@ -9,10 +9,10 @@ import {
 } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { useRecoilState, useRecoilValue } from "recoil";
-import Geolocation from "@react-native-community/geolocation";
 import {
   modeState,
   markerState,
+  myLocationState
 } from "../Utils/atom";
 
 export const PlusMarker = () => {
@@ -27,6 +27,7 @@ export const PlusMarker = () => {
     "like1",
     "slack",
   ]);
+  const myLocation = useRecoilValue(myLocationState);
   const [mode, setMode] = useRecoilState(modeState);
   const [marker, setMarker] = useRecoilState(markerState);
   return (
@@ -53,16 +54,16 @@ export const PlusMarker = () => {
         <ScrollView horizontal={true}>
           <HStack space={5}>
             {markerName.map((name, index) =>
-                <AntDesign
-                  key={index}
-                  name={name}
-                  size={50}
-                  color={markersImage === name ? "red" : "black"}
-                  onPress={() => {
-                    setMarkersImage(name);
-                  }}
-                />
-              )}
+              <AntDesign
+                key={index}
+                name={name}
+                size={50}
+                color={markersImage === name ? "red" : "black"}
+                onPress={() => {
+                  setMarkersImage(name);
+                }}
+              />
+            )}
           </HStack>
         </ScrollView>
       </Box>
@@ -85,36 +86,31 @@ export const PlusMarker = () => {
           <Text>취소</Text>
         </VStack>
         <VStack space={2} alignItems={"center"}>
-        <AntDesign
-          name="checkcircleo"
-          size={50}
-          color="black"
-          onPress={() => {
-              Geolocation.getCurrentPosition(
-              location => {
-                console.log(location)
-                setMode("default");
-                let {longitude, latitude} =  location.coords
-                setMarker((marker)=>{
-                  return [
-                    ...marker,
-                    {
-                      key: marker.length,
-                      selected: false,
-                      name: markersImage,
-                      latitude: latitude,
-                      longitude: longitude,
-                      icon: markersImage,
-                      createdAt: new Date(),
-                    },
-                  ];
-                });
-                console.log(marker)
-              }
-            )
-          }}
-        />
-        <Text>확인</Text>
+          <AntDesign
+            name="checkcircleo"
+            size={50}
+            color="black"
+            onPress={() => {
+              let longitude = myLocation[0];
+              let latitude = myLocation[1];
+              setMarker((marker) => {
+                return [
+                  ...marker,
+                  {
+                    key: marker.length,
+                    selected: false,
+                    name: markersImage,
+                    latitude: latitude,
+                    longitude: longitude,
+                    icon: markersImage,
+                    createdAt: new Date(),
+                    deleteToggle: false,
+                  },
+                ];
+              });
+            }}
+          />
+          <Text>확인</Text>
         </VStack>
       </Center>
     </Box>

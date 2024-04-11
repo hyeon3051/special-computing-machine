@@ -26,14 +26,12 @@ export const DeleteMarkerView = () => {
   const deleteMarker = () => {
     setMarker(
       marker.filter((data) => {
-        return !data.selected;
-      })
-    )
+        return !data.deleteToggle
+      }
+    ))
+    console.log(marker)
   }
-
-  useEffect(() => {
-  }, [marker]);
-
+  
   return (
     <Box
       position={"absolute"}
@@ -57,26 +55,28 @@ export const DeleteMarkerView = () => {
       >
         <ScrollView horizontal={true}>
           <HStack space={5}>
-            {marker.map((data, idx) =>
-            <VStack key={idx} space={2} alignItems={"center"}>
+            {marker.map((data) =>
+            <VStack key={data.key} space={2} alignItems={"center"}>
               <AntDesign
                 name={data.icon}
                 size={50}
-                color={data.selected ? "red" : "black"}
-                key={idx}
+                color={data.deleteToggle ? "red" : "black"}
+                key={data.key}
                 onPress={() =>{
                   setMarker(
-                    marker.map((parent, index) => {
-                      if (index === idx) {
+                    marker.map((parent) => {
+                      if (parent.key === data.key) {
                         return {
                           ...parent,
-                          selected: !parent.selected,
+                          deleteToggle:  parent.deleteToggle ? false : true,
                         };
                       }
                       return parent;
                     })
                   )
-                }}
+                  console.log(marker)
+                }
+              }
               />
               <Text>{data.name}</Text>
             </VStack>
@@ -102,7 +102,7 @@ export const DeleteMarkerView = () => {
               marker.map((parent) => {
                 return {
                   ...parent,
-                  selected: false,
+                  deleteToggle: false, 
                 };
               })
             )
@@ -130,7 +130,7 @@ export const DeleteMarkerView = () => {
                     }
                     {...triggerProps}
                     onPress={() => {
-                      if(marker.findIndex(data=> data.selected) !== -1) {
+                      if(marker.findIndex(data=> data.deleteToggle) !== -1) {
                         setIsOpen(!isOpen)
                       }else{
                         viewToast("마커를 선택해주세요")

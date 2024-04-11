@@ -28,7 +28,7 @@ export const MarkerView = () => {
 
   useEffect(() => {
     let idx = markers.findIndex((item) => {
-      return item.selected === true;
+      return item.selected 
     });
     setSelectedMarker(markers[idx]);
   }, []);
@@ -86,7 +86,7 @@ export const MarkerView = () => {
                   >
                     <Center>
                       <Text fontSize={15} alignSelf={"center"}>
-                        {selectedMarker.latitude?.toFixed(5)}
+                        {selectedMarker.longitude?.toFixed(5)}
                       </Text>
                     </Center>
                     <Center>
@@ -102,7 +102,7 @@ export const MarkerView = () => {
                   >
                     <Center>
                       <Text fontSize={15} alignSelf={"flex-start"}>
-                        {selectedMarker.longitude?.toFixed(5)}
+                        {selectedMarker.latitude?.toFixed(5)}
                       </Text>
                     </Center>
                     <Center>

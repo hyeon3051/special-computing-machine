@@ -14,8 +14,6 @@ import {
   myLocationState,
   dataLocationState
 } from "../Utils/atom";
-import MapboxGL from  "@rnmapbox/maps"
-import Geolocation  from "@react-native-community/geolocation";
 export const RightIcon = () => {
   const [mode, setMode] = useRecoilState(modeState);
   const [record, setRecord] = useRecoilState(recordState);
@@ -126,11 +124,9 @@ export const RightIcon = () => {
       {!isOpen ?
       <VStack alignItems="center">
         <AntDesign name="enviromento" size={50} color="yellow" onPress={async()=>{
-          await Geolocation.getCurrentPosition(position=>{
-            let latitude = position.coords.latitude;
-            let longitude = position.coords.longitude;
-            setDataLocation([longitude, latitude])
-          })
+          let longitude = location[0];
+          let latitude = location[1];
+          setDataLocation([longitude, latitude])
         }} />
         <Text color={"white"}>
           내 위치

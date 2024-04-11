@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView} from "react-native";
+import { View, ScrollView } from "react-native";
 import {
   Box,
   Text,
@@ -7,7 +7,7 @@ import {
   HStack,
   VStack,
 } from "native-base";
-import { AntDesign} from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   modeState,
@@ -45,37 +45,37 @@ export const MarkerInfo = () => {
         <ScrollView horizontal={true}>
           <HStack space={5}>
             {marker.map((data, index) => {
-                return (
-                  <VStack key={index}>
-                    <Center>
-                      <AntDesign
-                        name={data.icon}
-                        size={50}
-                        color={data.selected ? "red" : "black"}
-                        onPress={()=>{
-                          setDataLocation([
-                            data.longitude, data.latitude
-                          ])
-                          setMarker(
-                            marker.map((parent, idx) => {
-                              if (index === idx) {
-                                return {
-                                  ...parent,
-                                  selected: true,
-                                };
-                              }
+              return (
+                <VStack key={index}>
+                  <Center>
+                    <AntDesign
+                      name={data.icon}
+                      size={50}
+                      color={data.selected ? "red" : "black"}
+                      onPress={() => {
+                        setDataLocation([
+                          data.longitude, data.latitude
+                        ])
+                        setMarker(
+                          marker.map((parent, idx) => {
+                            if (index === idx) {
                               return {
                                 ...parent,
-                                selected: false,
-                              }
-                            })
-                          )
-                        }}
-                      />
-                      <Text>{data.name}</Text>
-                    </Center>
-                  </VStack>
-                );
+                                selected: true,
+                              };
+                            }
+                            return {
+                              ...parent,
+                              selected: false,
+                            }
+                          })
+                        )
+                      }}
+                    />
+                    <Text>{data.name}</Text>
+                  </Center>
+                </VStack>
+              );
             })}
           </HStack>
         </ScrollView>
@@ -88,43 +88,43 @@ export const MarkerInfo = () => {
         justifyContent={"space-around"}
       >
         <VStack space={2} alignItems={"center"}>
-        <AntDesign
-          name="closecircleo"
-          size={50}
-          color="black"
-          onPress={() => {
-            setMode("default");
-            setDataLocation([]);
-            setMarker(
-              marker.map((parent) => {
-                return {
-                  ...parent,
-                  selected: false,
-                };
-              })
-            )
-          }}
-        />
-        <Text>
-          닫기
-        </Text>
+          <AntDesign
+            name="closecircleo"
+            size={50}
+            color="black"
+            onPress={() => {
+              setMode("default");
+              setDataLocation([]);
+              setMarker(
+                marker.map((parent) => {
+                  return {
+                    ...parent,
+                    selected: false,
+                  };
+                })
+              )
+            }}
+          />
+          <Text>
+            닫기
+          </Text>
         </VStack>
         <VStack space={2} alignItems={"center"}>
-        <AntDesign
-          name="infocirlceo"
-          size={50}
-          color="black"
-          onPress={() => {
-            if(dataLocation.length === 0){
-              viewToast("마커를 선택해주세요.");
-              return;
-            }
-            setMode("markerView");
-          }}
-        />
-        <Text>
-          정보
-        </Text>
+          <AntDesign
+            name="infocirlceo"
+            size={50}
+            color="black"
+            onPress={() => {
+              if (dataLocation.length === 0) {
+                viewToast("마커를 선택해주세요.");
+                return;
+              }
+              setMode("markerView");
+            }}
+          />
+          <Text>
+            정보
+          </Text>
         </VStack>
       </Center>
     </Box>

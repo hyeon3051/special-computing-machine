@@ -25,7 +25,7 @@ export default function Default() {
     const [myInfoLocation, setMyInfoLocation] = useRecoilState(myLocationState);
       
       Geolocation.watchPosition(location=>{
-        let {latitude, longitude} = location.coords
+        let {longitude, latitude} = location.coords
         setMyInfoLocation([longitude, latitude])
           if(fileName) {
               setRoutes((prev) => [
