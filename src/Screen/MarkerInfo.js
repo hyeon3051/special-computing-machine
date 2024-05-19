@@ -87,27 +87,34 @@ export const MarkerInfo = () => {
         flexDirection={"row"}
         justifyContent={"space-around"}
       >
-        <VStack space={2} alignItems={"center"}>
-          <AntDesign
-            name="closecircleo"
-            size={50}
-            color="black"
-            onPress={() => {
-              setMode("default");
-              setDataLocation([]);
-              setMarker(
-                marker.map((parent) => {
-                  return {
-                    ...parent,
-                    selected: false,
-                  };
-                })
-              )
-            }}
-          />
-          <Text>
-            닫기
-          </Text>
+        <VStack space={2} alignItems="center">
+        <AntDesign
+          name="pluscircleo"
+          size={50}
+          left={0}
+          bottom={0}
+          color={"black"}
+          onPress={() => setMode("plusMarker")}
+        />
+        <Text 
+          color={"white"}
+          bold
+        >
+          마커 추가
+        </Text>
+      </VStack>
+      <VStack alignItems={"center"}>
+            <AntDesign
+              name="delete"
+              size={50}
+              color="black"
+              onPress={() => {
+                setMode("deleteMarker")
+              }}
+            />
+            <Text color={"white"}>
+              마커 삭제
+            </Text>
         </VStack>
         <VStack space={2} alignItems={"center"}>
           <AntDesign

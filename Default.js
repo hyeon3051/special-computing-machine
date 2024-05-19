@@ -18,7 +18,6 @@ Geolocation.setRNConfiguration(
 
 export default function Default() {
     const adUnitId = "ca-app-pub-5218306923860994/2970041329";
-    const appState = useRef(AppState.currentState);
     const [routes, setRoutes] = useRecoilState(routeState);
     const [mode, setMode] = useRecoilState(modeState)
     const [fileName, setFileName] = useRecoilState(fileNameState)
@@ -95,7 +94,10 @@ export default function Default() {
                 width={Dimensions.get("window").width}
                 height={Dimensions.get("window").height - 50}
             >
-                <Box alignItems={"center"} justifyContent={"center"} flex={1}>
+                <Box alignItems={"center"} justifyContent={"center"} flex={1} onTouchStart={() => {
+                    setMode("default")
+                }
+                }>
                     <DefaultMapScreen/>
                 </Box>
                 <DefaultScreen/>

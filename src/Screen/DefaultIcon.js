@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { Box, Center, Text } from "native-base";
 import { modeState, recordState  } from "../Utils/atom";
-import { LeftIcon } from "../Components/leftIcon";
 import { RightIcon } from "../Components/RightIcon";
 import { UserIcon } from "../Components/userIcon";
 
@@ -12,9 +11,8 @@ export const DefaultIcon = () => {
   useEffect(() => {}, [mode]);
   return (
     <>
-      {mode === "default" ? (
+      {mode === "default" &&
         <>
-          <LeftIcon />
           <RightIcon />
           <Box width={"50%"} position={"absolute"} >
             <Center>
@@ -25,7 +23,7 @@ export const DefaultIcon = () => {
           </Box>
           <UserIcon />
         </>
-      ) : null}
+      }
     </>
   );
 };

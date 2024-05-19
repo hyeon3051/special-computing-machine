@@ -36,7 +36,7 @@ export const PlusMarker = () => {
       flex={1}
       bottom={0}
       width={"100%"}
-      height={"40%"}
+      height={"100%"}
       backgroundColor={"white"}
       justifyContent={"space-around"}
       alignItems={"center"}
@@ -45,7 +45,7 @@ export const PlusMarker = () => {
         <Text fontSize={40}>마커 추가</Text>
       </Center>
       <Box
-        h="50%"
+        h="100%"
         width={"90%"}
         flex={1}
         justifyContent={"center"}

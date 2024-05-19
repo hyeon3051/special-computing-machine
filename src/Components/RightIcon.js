@@ -5,6 +5,7 @@ import {
   Stagger,
   useDisclose,
   VStack,
+  HStack,
 } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { useRecoilState } from "recoil";
@@ -22,52 +23,18 @@ export const RightIcon = () => {
   const [dataLocation,setDataLocation] = useRecoilState(dataLocationState)
 
   return (
-    <Box position={"absolute"} right={5} bottom={10}>
-      {isOpen ? (
-        <Stagger
-          visible={isOpen}
-          initial={{ opacity: 0, scale: 0, translateY: 34 }}
-          animate={{
-            translateY: 0,
-            scale: 1,
-            opacity: 1,
-            transition: {
-              type: "spring",
-              mass: 0.8,
-              stagger: { offset: 30, reverse: true },
-            },
-          }}
-          exit={{
-            translateY: 34,
-            scale: 0.5,
-            opacity: 0,
-            transition: {
-              duration: 100,
-              stagger: { offset: 30, reverse: true },
-            },
-          }}
-        >
-          <VStack space={2} alignItems="center">
-          { record ? (
-          <VStack alignItems={"center"}>
-          <AntDesign name="camera" size={50} color="white" onPress={()=>{
-            setRecord(false)
-          }} />
-              <Text color={"white"}>
-                측정 종료
-              </Text>
-            </VStack>
-          ) : (
+    <Box position={"absolute"} left={0} right={0} bottom={0} w='100%' backgroundColor={"black"} justifyContent={"space-around"} alignItems={"center"}>
+          <HStack space={2} alignItems="center">
             <VStack alignItems={"center"}>
-            <AntDesign name="camerao" size={50} color="white" onPress={()=>{
+            <AntDesign name="camerao" size={50} color={record ? "red" : "white"} onPress={()=>{
+              if(record){
               setMode("file");
               setRecord(true)
+              }else{
+                setRecord(false)
+              }
             }} />
-                <Text color={"white"}>
-                  측정 시작
-                </Text>
               </VStack>
-          )}
             <VStack alignItems={"center"}>
             <AntDesign
               name="save"
@@ -75,22 +42,6 @@ export const RightIcon = () => {
               color="white"
               onPress={() => setMode("save")}
             />
-            <Text color={"white"}>
-              저장
-            </Text>
-            </VStack>
-            <VStack alignItems={"center"}>
-            <AntDesign
-              name="delete"
-              size={50}
-              color="white"
-              onPress={() => {
-                setMode("deleteMarker")
-              }}
-            />
-            <Text color={"white"}>
-              마커 삭제
-            </Text>
             </VStack>
             <VStack alignItems={"center"}>
             <AntDesign
@@ -101,9 +52,6 @@ export const RightIcon = () => {
                 setMode("MarkerInfo")
               }}
             />
-            <Text color={"white"}>
-              마커 정보
-            </Text>
             </VStack>
             <VStack alignItems={"center"}>
             <AntDesign
@@ -114,31 +62,15 @@ export const RightIcon = () => {
                 setMode("route")
               }}
             />
-            <Text color={"white"}>
-              루트 정보
-            </Text>
             </VStack>
-          </VStack>
-        </Stagger>
-      ) : null}
-      {!isOpen ?
-      <VStack alignItems="center">
+            <VStack alignItems="center">
         <AntDesign name="enviromento" size={50} color="yellow" onPress={async()=>{
           let longitude = location[0];
           let latitude = location[1];
           setDataLocation([longitude, latitude])
         }} />
-        <Text color={"white"}>
-          내 위치
-        </Text>
-      </VStack> : null
-      }
-      <VStack alignItems="center">
-        <AntDesign name="menu-fold" size={50} color="yellow" onPress={onToggle} />
-        <Text color={"white"}>
-          메뉴
-        </Text>
-      </VStack>
+          </VStack>
+          </HStack>
     </Box>
   );
 };

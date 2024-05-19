@@ -91,27 +91,6 @@ export const DeleteMarkerView = () => {
         flexDirection={"row"}
         justifyContent={"space-around"}
       >
-        <VStack space={2} alignItems={"center"}>
-        <AntDesign
-          name="closecircleo"
-          size={50}
-          color="black"
-          onPress={() => {
-            setMode("default");
-            setMarker(
-              marker.map((parent) => {
-                return {
-                  ...parent,
-                  deleteToggle: false, 
-                };
-              })
-            )
-          }}
-        />
-        <Text>
-          취소
-        </Text>
-        </VStack>
         <Box>
           <Popover
             position="top"

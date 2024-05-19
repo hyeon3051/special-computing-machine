@@ -165,19 +165,6 @@ export const DefaultRouteScreen = () => {
         flexDirection={"row"}
         justifyContent={"space-around"}
       >
-          <VStack space={2} alignItems={"center"}>
-          <AntDesign
-            name="closecircleo"
-            size={50}
-            color="black"
-            onPress={() => {
-              setMode("default");
-            }}
-          />
-          <Text>
-            취소
-          </Text>
-        </VStack>
         <VStack space={2} alignItems={"center"}>
         <Popover
             position="top"

@@ -102,12 +102,9 @@ export const DefaultSaveScreen = () => {
       justifyContent={"space-around"}
       alignItems={"center"}
     >
-      <Center width={"90%"} height="30%">
-        <Text fontSize={40}>저장</Text>
-      </Center>
       <Box
         h="50%"
-        width={"90%"}
+        width={"40%"}
         flex={1}
         justifyContent={"center"}
         alignItems={"center"}
@@ -146,7 +143,6 @@ export const DefaultSaveScreen = () => {
       <Center
         flex={1}
         width={"90%"}
-        h="30%"
         flexDirection={"row"}
         justifyContent={"space-around"}
       >
@@ -163,22 +159,6 @@ export const DefaultSaveScreen = () => {
             }
           }}
         />
-        <Text>
-          불러오기
-        </Text>
-        </VStack>
-        <VStack space={2} alignItems={"center"}>
-        <AntDesign
-          name="closecircleo"
-          size={50}
-          color="black"
-          onPress={() => {
-            setMode("default");
-          }}
-        />
-        <Text>
-          취소
-        </Text>
         </VStack>
         <Box>
           <Popover
@@ -205,9 +185,6 @@ export const DefaultSaveScreen = () => {
                       }
                     }}
                   />
-                  <Text>
-                    삭제
-                  </Text>
                 </VStack>
               );
             }}
@@ -260,9 +237,6 @@ export const DefaultSaveScreen = () => {
             setMode("file");
           }}
         />
-        <Text>
-          저장
-        </Text>
         </VStack>
       </Center>
     </Box>
